@@ -18,14 +18,14 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create
 
 function preload() {
 
-    game.load.image('sky', '/images/tiles/bag-clear.png');
-    game.load.image('ground', '/images/tiles/64ground.png');
-    game.load.image('bag', '/images/sprites/bag.png');
-    game.load.spritesheet('rox', '/images/sprites/animation-test.png', 64,47 );
-    game.load.audio('overworld', '/music/rox-ow2.mp3');
-    game.load.image('flake1', '/images/sprites/small-flake.png');
-    game.load.image('flake2', '/images/sprites/small-flake2.png');
-    game.load.image('flake3', '/images/sprites/large-flake.png');
+    game.load.image('sky', '/RoxGame/images/tiles/bag-clear.png');
+    game.load.image('ground', '/RoxGame/images/tiles/64ground.png');
+    game.load.image('bag', '/RoxGame/images/sprites/bag.png');
+    game.load.spritesheet('rox', '/RoxGame/images/sprites/animation-test.png', 64,47 );
+    game.load.audio('overworld', '/RoxGame/music/rox-ow2.mp3');
+    game.load.image('flake1', '/RoxGame/images/sprites/small-flake.png');
+    game.load.image('flake2', '/RoxGame/images/sprites/small-flake2.png');
+    game.load.image('flake3', '/RoxGame/images/sprites/large-flake.png');
 
 }
 
@@ -94,9 +94,6 @@ function create() {
     //  Our two animations, walking left and right.
     player.animations.add('left', [3, 4, 5], 8, true);
     player.animations.add('right', [0, 1, 2], 8, true);
-    player.animations.add('standleft' [6], 8, true);
-    player.animations.add('standright' [7], 8, true);
-    
 
     //  Finally some stars to collect
     stars = game.add.group();
@@ -105,7 +102,7 @@ function create() {
     stars.enableBody = true;
     
     //scale the bag
-    //bag.scale.setTo(30,30)
+    //sprite.scale.setTo(30,30)
 
     //  Here we'll create 12 of them evenly spaced apart
     for (var i = 0; i < 8; i++)
