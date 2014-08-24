@@ -1,8 +1,8 @@
-﻿module Rox {
+module Rox {
     export class RoxGame extends Phaser.Game {
 
         constructor() {
-            super(640, 480, Phaser.AUTO, 'container', null);
+            super(800, 600, Phaser.AUTO, 'container', null);
 
             this.state.add('Boot', Boot, false);
             this.state.add('Preloader', Preloader, false);

@@ -1,4 +1,4 @@
-﻿window.onload = function () {
+window.onload = function () {
     var game = new Rox.RoxGame();
 };
 var __extends = this.__extends || function (d, b) {
@@ -130,7 +130,7 @@ var Rox;
     var RoxGame = (function (_super) {
         __extends(RoxGame, _super);
         function RoxGame() {
-            _super.call(this, 640, 480, Phaser.AUTO, 'container', null);
+            _super.call(this, 800, 600, Phaser.AUTO, 'container', null);
 
             this.state.add('Boot', Rox.Boot, false);
             this.state.add('Preloader', Rox.Preloader, false);
