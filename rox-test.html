@@ -33,6 +33,9 @@ function preload() {
 var player;
 var platforms;
 var cursors;
+var bg;
+var facing = 'left';
+    
     
 var stars;
 var score = 0;
@@ -52,8 +55,9 @@ function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     //  A simple background for our game
-    game.add.tileSprite(0, 0, 800, 600, 'sky');
-    
+    bg = game.add.tileSprite(0, 0, 800, 600, 'sky');
+    bg.fixedToCamera = true;
+        
     // Add looping background music
     music = game.add.audio('overworld',1,true);
     music.play('',0,1,true);
@@ -108,14 +112,16 @@ function create() {
     for (var i = 0; i < 8; i++)
     {
         //  Create a star inside of the 'stars' group
-        var star = stars.create(i * 70, 0, 'bag');
+        var star = stars.create(i * 90, 0, 'bag');
+        star.scale.x = 0.5;
+        star.scale.y = 0.5;
         
 
         //  Let gravity do its thing
         star.body.gravity.y = 300;
 
         //  This just gives each star a slightly random bounce value
-        star.body.bounce.y = 0.7 + Math.random() * 0.2;
+        star.body.bounce.y = 0.7 + Math.random() * 0.1;
         
     }
 
@@ -195,15 +201,23 @@ function update() {
     {
         //  Move to the left
         player.body.velocity.x = -150;
-
-        player.animations.play('left');
+        
+        if (facing != 'left')
+        {
+            player.animations.play('left');
+            facing = 'left';
+        }
     }
     else if (cursors.right.isDown)
     {
         //  Move to the right
         player.body.velocity.x = 150;
-
-        player.animations.play('right');
+        
+        if (facing != 'right')
+        {
+            player.animations.play('right');
+            facing = 'right';
+        }
     }
     //else if (keyboard.onUpCallback)
     //{
@@ -215,9 +229,21 @@ function update() {
     //}
     else
     {
-        player.animations.stop();
+        if (facing != 'idle')
+        {
+            player.animations.stop();
 
-        player.frame = 6;
+            if (facing == 'left')
+            {
+                player.frame = 7;
+            }
+            else
+            {
+                player.frame = 5;
+            }
+
+            facing = 'idle';
+        }
     }
     
     //  Allow the player to jump if they are touching the ground.
