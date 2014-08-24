@@ -1,0 +1,6 @@
+D:\GitHub\ludum_dare_30\RoxGame\obj\Debug\RoxGame.csprojResolveAssemblyReference.cache
+D:\GitHub\ludum_dare_30\RoxGame\bin\RoxGame.dll.config
+D:\GitHub\ludum_dare_30\RoxGame\bin\RoxGame.dll
+D:\GitHub\ludum_dare_30\RoxGame\bin\RoxGame.pdb
+D:\GitHub\ludum_dare_30\RoxGame\obj\Debug\RoxGame.dll
+D:\GitHub\ludum_dare_30\RoxGame\obj\Debug\RoxGame.pdb
