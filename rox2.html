@@ -21,21 +21,31 @@ function preload() {
     game.load.image('sky', '/images/tiles/bag-clear.png');
     game.load.image('ground', '/images/tiles/64ground.png');
     game.load.image('bag', '/images/sprites/bag.png');
-    game.load.spritesheet('rox', '/images/sprites/animation-test.png', 64,51 );
+    game.load.spritesheet('rox', '/images/sprites/animation-test.png', 64,47 );
     game.load.audio('overworld', '/music/rox-ow2.mp3');
+    game.load.image('flake1', '/images/sprites/small-flake.png');
+    game.load.image('flake2', '/images/sprites/small-flake2.png');
+    game.load.image('flake3', '/images/sprites/large-flake.png');
 
 }
 
+// demo vars
 var player;
 var platforms;
 var cursors;
-var leftkey;
-var rightkey;
 
 var stars;
 var score = 0;
 var scoreText;
-
+    
+//snow vars
+var max = 0;
+var front_emitter;
+var mid_emitter;
+var back_emitter;
+var update_interval = 4 * 60;
+var i = 0;
+    
 function create() {
 
     //  We're going to be using physics, so enable the Arcade Physics system
@@ -46,7 +56,6 @@ function create() {
     
     // Add looping background music
     music = game.add.audio('overworld',1,true);
-
     music.play('',0,1,true);
 
     //  The platforms group contains the ground and the 2 ledges we can jump on
@@ -56,10 +65,10 @@ function create() {
     platforms.enableBody = true;
 
     // Here we create the ground.
-    var ground = platforms.create(0, game.world.height - 32, 'ground');
+    var ground = platforms.create(0, game.world.height - 40, 'ground');
 
     //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-    ground.scale.setTo(200, .5);
+    ground.scale.setTo(12, .65);
 
     //  This stops it from falling away when you jump on it
     ground.body.immovable = true;
@@ -102,7 +111,7 @@ function create() {
         var star = stars.create(i * 70, 0, 'bag');
 
         //  Let gravity do its thing
-        star.body.gravity.y = 800;
+        star.body.gravity.y = 1200;
 
         //  This just gives each star a slightly random bounce value
         star.body.bounce.y = 0.7 + Math.random() * 0.2;
@@ -114,9 +123,62 @@ function create() {
     //  Our controls.
     cursors = game.input.keyboard.createCursorKeys();
     
+    //snow
+    back_emitter = game.add.emitter(game.world.centerX, -32, 600);
+    back_emitter.makeParticles('flake1', [0]);
+    back_emitter.makeParticles('flake2', [0]);
+    back_emitter.makeParticles('flake3', [0]);
+    back_emitter.maxParticleScale = 0.6;
+    back_emitter.minParticleScale = 0.2;
+    back_emitter.setYSpeed(20, 100);
+    back_emitter.gravity = 0;
+    back_emitter.width = game.world.width * 1.5;
+    back_emitter.minRotation = 0;
+    back_emitter.maxRotation = 40;
+
+    mid_emitter = game.add.emitter(game.world.centerX, -32, 250);
+    mid_emitter.makeParticles('flake1', [0]);
+    back_emitter.makeParticles('flake2', [0]);
+    back_emitter.makeParticles('flake3', [0]);
+    mid_emitter.maxParticleScale = 1.2;
+    mid_emitter.minParticleScale = 0.8;
+    mid_emitter.setYSpeed(50, 150);
+    mid_emitter.gravity = 0;
+    mid_emitter.width = game.world.width * 1.5;
+    mid_emitter.minRotation = 0;
+    mid_emitter.maxRotation = 40;
+
+    front_emitter = game.add.emitter(game.world.centerX, -32, 50);
+    front_emitter.makeParticles('flake1', [0]);
+    back_emitter.makeParticles('flake2', [0]);
+    back_emitter.makeParticles('flake3', [0]);
+    front_emitter.maxParticleScale = 1;
+    front_emitter.minParticleScale = 0.5;
+    front_emitter.setYSpeed(100, 200);
+    front_emitter.gravity = 0;
+    front_emitter.width = game.world.width * 1.5;
+    front_emitter.minRotation = 0;
+    front_emitter.maxRotation = 40;
+
+    changeWindDirection();
+
+    back_emitter.start(false, 14000, 20);
+    mid_emitter.start(false, 12000, 40);
+    front_emitter.start(false, 6000, 1000);
+    
 }
 
 function update() {
+    
+    i++;
+
+    if (i === update_interval)
+    {
+        changeWindDirection();
+        update_interval = Math.floor(Math.random() * 20) * 60; // 0 - 20sec @ 60fps
+        i = 0;
+    }
+
 
     //  Collide the player and the stars with the platforms
     game.physics.arcade.collide(player, platforms);
@@ -128,7 +190,7 @@ function update() {
     //  Reset the players velocity (movement)
     player.body.velocity.x = 0;
 
-    if (cursors.left.isDown)
+    if (cursors.left.isDown)   
     {
         //  Move to the left
         player.body.velocity.x = -150;
@@ -173,6 +235,34 @@ function collectStar (player, star) {
     //  Add and update the score
     score += 1;
     scoreText.text = 'Score: ' + score;
+
+}
+    
+function changeWindDirection() {
+
+    var multi = Math.floor((max + 200) / 4),
+        frag = (Math.floor(Math.random() * 100) - multi);
+    max = max + frag;
+
+    if (max > 200) max = 150;
+    if (max < -200) max = -150;
+
+    setXSpeed(back_emitter, max);
+    //setXSpeed(mid_emitter, max);
+    //setXSpeed(front_emitter, max);
+
+}
+
+function setXSpeed(emitter, max) {
+
+    emitter.setXSpeed(max - 20, max);
+    emitter.forEachAlive(setParticleXSpeed, this, max);
+
+}
+
+function setParticleXSpeed(particle, max) {
+
+    particle.body.velocity.x = max - Math.floor(Math.random() * 30);
 
 }
 
