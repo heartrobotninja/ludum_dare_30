@@ -1,3 +1,0 @@
-Image Files
--- tilesets
--- sprites
