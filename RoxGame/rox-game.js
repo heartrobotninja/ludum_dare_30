@@ -30,6 +30,51 @@ var Rox;
 })(Rox || (Rox = {}));
 var Rox;
 (function (Rox) {
+    var MainMenu = (function (_super) {
+        __extends(MainMenu, _super);
+        function MainMenu() {
+            _super.apply(this, arguments);
+        }
+        MainMenu.prototype.preload = function () {
+            this.roxMain = this.game.add.sprite(0, 0, 'rox-main');
+            this.roxMain.scale.setTo(20, 20);
+        };
+
+        MainMenu.prototype.create = function () {
+            this.game.stage.setBackgroundColor(0xFFFFFF);
+            var tween = this.add.tween(this.roxMain.scale).to({ x: 1, y: 1 }, 2000, Phaser.Easing.Bounce.In, true);
+        };
+
+        MainMenu.prototype.update = function () {
+            if (this.game.input.keyboard.justReleased(Phaser.Keyboard.ENTER)) {
+                this.game.state.start('Overworld', true, false);
+            }
+        };
+        return MainMenu;
+    })(Phaser.State);
+    Rox.MainMenu = MainMenu;
+})(Rox || (Rox = {}));
+var Rox;
+(function (Rox) {
+    var Overworld = (function (_super) {
+        __extends(Overworld, _super);
+        function Overworld() {
+            _super.apply(this, arguments);
+        }
+        Overworld.prototype.preload = function () {
+        };
+
+        Overworld.prototype.create = function () {
+        };
+
+        Overworld.prototype.update = function () {
+        };
+        return Overworld;
+    })(Phaser.State);
+    Rox.Overworld = Overworld;
+})(Rox || (Rox = {}));
+var Rox;
+(function (Rox) {
     var Preloader = (function (_super) {
         __extends(Preloader, _super);
         function Preloader() {
@@ -42,6 +87,9 @@ var Rox;
             this.roxIdle.scale.setTo(0.2, 0.2);
 
             //this.load.setPreloadSprite(this.roxIdle);
+            // Main Menu Graphic
+            this.load.image('rox-main', 'images/sprites/rox-main.png');
+
             // Rox character sprites
             this.load.spritesheet('rox-animated', 'images/sprites/animation-test.png', 64, 64, 8);
             this.load.image('rox-idle', 'images/sprites/rox-idle.png');
@@ -67,6 +115,11 @@ var Rox;
         Preloader.prototype.create = function () {
             this.game.stage.setBackgroundColor(0xFFFFFF);
             var tween = this.add.tween(this.roxIdle.scale).to({ x: 6, y: 6 }, 4000, Phaser.Easing.Bounce.InOut, true);
+            tween.onComplete.add(this.mainMenu, this);
+        };
+
+        Preloader.prototype.mainMenu = function () {
+            this.game.state.start('MainMenu', true, false);
         };
         return Preloader;
     })(Phaser.State);
@@ -81,8 +134,9 @@ var Rox;
 
             this.state.add('Boot', Rox.Boot, false);
             this.state.add('Preloader', Rox.Preloader, false);
+            this.state.add('MainMenu', Rox.MainMenu, false);
+            this.state.add('Overworld', Rox.Overworld, false);
 
-            //this.state.add('Overworld', Overworld, false);
             //this.state.add('BagWorld', BagWorld, false);
             this.state.start('Boot');
         }

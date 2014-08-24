@@ -10,6 +10,9 @@
             this.roxIdle.scale.setTo(0.2, 0.2);
             //this.load.setPreloadSprite(this.roxIdle);
 
+            // Main Menu Graphic
+            this.load.image('rox-main', 'images/sprites/rox-main.png');
+
             // Rox character sprites
             this.load.spritesheet('rox-animated', 'images/sprites/animation-test.png', 64, 64, 8);
             this.load.image('rox-idle', 'images/sprites/rox-idle.png');
@@ -35,6 +38,11 @@
         create() {
             this.game.stage.setBackgroundColor(0xFFFFFF);
             var tween = this.add.tween(this.roxIdle.scale).to({ x: 6, y: 6 }, 4000, Phaser.Easing.Bounce.InOut, true);
+            tween.onComplete.add(this.mainMenu, this);
+        }
+
+        mainMenu() {
+            this.game.state.start('MainMenu', true, false);
         }
     }
 }

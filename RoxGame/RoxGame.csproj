@@ -26,6 +26,8 @@
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />
     <TypeScriptCompile Include="boot.ts" />
+    <TypeScriptCompile Include="mainmenu.ts" />
+    <TypeScriptCompile Include="overworld.ts" />
     <TypeScriptCompile Include="phaser.d.ts" />
     <TypeScriptCompile Include="preloader.ts" />
     <TypeScriptCompile Include="rox-game.ts" />
