@@ -1,7 +1,7 @@
 ﻿module Rox {
     export class Boot extends Phaser.State {
         preload() {
-            this.load.image('rox-idle', 'images/sprites/rox-idle.png');
+            this.game.load.image('rox-idle', 'images/sprites/rox-idle.png');
         }
 
         create() {

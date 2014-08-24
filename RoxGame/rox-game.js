@@ -15,7 +15,7 @@ var Rox;
             _super.apply(this, arguments);
         }
         Boot.prototype.preload = function () {
-            this.load.image('rox-idle', 'images/sprites/rox-idle.png');
+            this.game.load.image('rox-idle', 'images/sprites/rox-idle.png');
         };
 
         Boot.prototype.create = function () {
@@ -37,10 +37,11 @@ var Rox;
         }
         Preloader.prototype.preload = function () {
             // Setup Preload Image
-            this.roxIdle = this.add.sprite(64, 64, 'rox-idle');
-            this.load.setPreloadSprite(this.roxIdle);
-            this.roxIdle.scale.setTo(1, 1);
+            this.roxIdle = this.game.add.sprite(this.world.centerX, this.world.centerY, 'rox-idle');
+            this.roxIdle.anchor.setTo(0.5, 0.5);
+            this.roxIdle.scale.setTo(0.2, 0.2);
 
+            //this.load.setPreloadSprite(this.roxIdle);
             // Rox character sprites
             this.load.spritesheet('rox-animated', 'images/sprites/animation-test.png', 64, 64, 8);
             this.load.image('rox-idle', 'images/sprites/rox-idle.png');
@@ -64,7 +65,8 @@ var Rox;
         };
 
         Preloader.prototype.create = function () {
-            var tween = this.add.tween(this.roxIdle.scale).to({ x: 10, y: 10 }, 2000, Phaser.Easing.Sinusoidal.InOut);
+            this.game.stage.setBackgroundColor(0xFFFFFF);
+            var tween = this.add.tween(this.roxIdle.scale).to({ x: 6, y: 6 }, 4000, Phaser.Easing.Bounce.InOut, true);
         };
         return Preloader;
     })(Phaser.State);
