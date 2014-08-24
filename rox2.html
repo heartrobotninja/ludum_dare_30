@@ -33,7 +33,7 @@ function preload() {
 var player;
 var platforms;
 var cursors;
-
+    
 var stars;
 var score = 0;
 var scoreText;
@@ -103,18 +103,23 @@ function create() {
 
     //  We will enable physics for any star that is created in this group
     stars.enableBody = true;
+    
+    //scale the bag
+    //bag.scale.setTo(30,30)
 
     //  Here we'll create 12 of them evenly spaced apart
     for (var i = 0; i < 8; i++)
     {
         //  Create a star inside of the 'stars' group
         var star = stars.create(i * 70, 0, 'bag');
+        
 
         //  Let gravity do its thing
-        star.body.gravity.y = 1200;
+        star.body.gravity.y = 300;
 
         //  This just gives each star a slightly random bounce value
         star.body.bounce.y = 0.7 + Math.random() * 0.2;
+        
     }
 
     //  The score
@@ -178,7 +183,6 @@ function update() {
         update_interval = Math.floor(Math.random() * 20) * 60; // 0 - 20sec @ 60fps
         i = 0;
     }
-
 
     //  Collide the player and the stars with the platforms
     game.physics.arcade.collide(player, platforms);
