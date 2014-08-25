@@ -301,9 +301,10 @@ function collectBags (player, onebag) {
     }
 
     //  Add and update the score
-    if (score === 500)
+    if (score === 100)
     {
-     scoreText = game.add.text(400, 300, 'YOU WIN!!!', { fontSize: '60px', fill: '#000' });  
+     scoreText = game.add.text(400, 300, 'YOU WIN!!!', { fontSize: '60px', fill: '#000' });
+     game.state.paused();
     }
     else
     {
