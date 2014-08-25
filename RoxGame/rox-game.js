@@ -56,7 +56,6 @@ var Rox;
 })(Rox || (Rox = {}));
 var Rox;
 (function (Rox) {
-    // TODO: timer to keep track of how long it took you to complete.
     // TODO: Clever Diplay: Something like a box when you win with your time.
     // TODO: ???
     // TODO: Profit!!!1!11!
@@ -65,12 +64,16 @@ var Rox;
         function Overworld() {
             _super.apply(this, arguments);
             this.facing = 'left';
+            // Counters
+            this.secondsCounter = 0;
+            this.finishCounter = 0;
+            this.jumpCounter = 0;
             this.score = 0;
-            //snow vars
             this.max = 0;
         }
         Overworld.prototype.preload = function () {
             this.game.physics.startSystem(Phaser.Physics.ARCADE);
+            this.timer = this.game.time.create();
         };
 
         Overworld.prototype.create = function () {
@@ -172,6 +175,7 @@ var Rox;
             this.back_emitter.start(false, 14000, 20);
             this.mid_emitter.start(false, 12000, 40);
             this.front_emitter.start(false, 6000, 1000);
+            this.timer.start();
         };
 
         Overworld.prototype.update = function () {
@@ -211,6 +215,13 @@ var Rox;
 
             if (this.game.input.keyboard.isDown(Phaser.Keyboard.UP) && this.player.body.touching.down) {
                 this.player.body.velocity.y = -540;
+                this.jumpCounter += 1;
+            }
+            if (this.score == 100) {
+                this.scoreText = this.game.add.text(400, 300, 'You Win!!!\nYour Score: ' + String(this.score) + '\nYour Time: ' + String(this.timer.seconds) + '\nNumber of Jumps: ' + String(this.jumpCounter), { fontSize: '60px', fill: '#000' });
+                this.game.state.game.paused = true;
+            } else {
+                this.scoreText.text = 'Score: ' + this.score + '\tJumps: ' + this.jumpCounter + '\tTime: ' + String(this.timer.seconds);
             }
         };
 
@@ -233,13 +244,7 @@ var Rox;
                 //  This just gives each star a slightly random bounce value
                 onebag.body.bounce.y = 0.4 + Math.random() * 0.1;
             }
-            if (this.score === 100) {
-                this.scoreText = this.game.add.text(400, 300, 'YOU WIN!!!', { fontSize: '60px', fill: '#000' });
-                this.game.state.game.paused = true;
-            } else {
-                this.score += 1;
-                this.scoreText.text = 'score: ' + this.score;
-            }
+            this.score += 1;
         };
         Overworld.prototype.setXSpeed = function (emitter, max) {
             emitter.setXSpeed(max - 20, max);
