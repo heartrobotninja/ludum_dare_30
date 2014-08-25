@@ -78,7 +78,7 @@
             this.bags.enableBody = true;
 
             for (var i = 0; i < 8; i++) {
-                //  Create a star inside of the 'bags' group
+                //  Create a bag inside of the 'bags' group
                 var onebag = this.bags.create(i * 100, 200, 'bag');
                 onebag.scale.x = 0.5;
                 onebag.scale.y = 0.5;
@@ -87,7 +87,7 @@
                 //  Let gravity do its thing
                 onebag.body.gravity.y = 400 + Math.random() * 700;
 
-                //  This just gives each star a slightly random bounce value
+                //  This just gives each bag a slightly random bounce value
                 onebag.body.bounce.y = 0.4 + Math.random() * 0.1;
             }
             this.scoreText = this.game.add.text(16, 16, 'score: 0', { fontSize: '20px', fill: '#000' });
@@ -189,27 +189,26 @@
             }
         }
 
-        collectBags(player, star) {
+        collectBags(player, onebag) {
 
             // Removes the star from the screen
             if (onebag) {
                 onebag.kill();
             }
-            for (var i = 0; i <= 1; i++) {
-                //  Create a star inside of the 'stars' group
-                var onebag = this.bags.create(this.game.world.randomX, 90, 'bag');
+            
+            //  Create a bag inside of the 'bags' group
+            var onebag = this.bags.create(this.game.world.randomX, 90, 'bag');
 
-                // Scale bags
-                onebag.scale.x = 0.5;
-                onebag.scale.y = 0.5;
+            // Scale bags
+            onebag.scale.x = 0.5;
+            onebag.scale.y = 0.5;
 
 
-                //  Let gravity do its thing
-                onebag.body.gravity.y = 400 + Math.random() * 700;
+            //  Let gravity do its thing
+            onebag.body.gravity.y = 400 + Math.random() * 700;
 
-                //  This just gives each star a slightly random bounce value
-                onebag.body.bounce.y = 0.4 + Math.random() * 0.1;
-            }
+            //  This just gives each bag a slightly random bounce value
+            onebag.body.bounce.y = 0.4 + Math.random() * 0.1;
             this.score += 1;
         }
         setXSpeed(emitter, max) {
