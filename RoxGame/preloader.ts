@@ -18,6 +18,11 @@
             this.load.image('rox-idle', 'images/sprites/rox-idle.png');
             this.load.image('magic-bag', 'images/sprites/bag.png');
 
+            // Snow sprites
+            game.load.image('flake1', '/RoxGame/images/sprites/small-flake.png');
+            game.load.image('flake2', '/RoxGame/images/sprites/small-flake2.png');
+            game.load.image('flake3', '/RoxGame/images/sprites/large-flake.png');
+
             // World tile sets
             this.load.image('ground', 'images/tiles/64ground.png');
             this.load.image('window-bottom', 'images/tiles/window-bottom.png');
@@ -32,7 +37,6 @@
 
             // Loading audio sets
             this.load.audio('overworld', 'music/rox-ow2.mp3', true);
-            this.load.audio('overworld2', 'music/rox-ow-6422.mp3', true);
         }
 
         create() {
