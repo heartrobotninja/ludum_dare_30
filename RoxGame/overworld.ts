@@ -1,4 +1,8 @@
 ﻿module Rox {
+    // TODO: timer to keep track of how long it took you to complete.
+    // TODO: Clever Diplay: Something like a box when you win with your time.
+    // TODO: ???
+    // TODO: Profit!!!1!11!
     export class Overworld extends Phaser.State {
         // Variables
         player: Phaser.Sprite;
@@ -188,8 +192,9 @@
                 onebag.body.bounce.y = 0.4 + Math.random() * 0.1;
 
             }
-            if (this.score === 500) {
+            if (this.score === 100) {
                 this.scoreText = this.game.add.text(400, 300, 'YOU WIN!!!', { fontSize: '60px', fill: '#000' });
+                this.game.state.game.paused = true;
             }
             else {
                 this.score += 1;
