@@ -122,18 +122,8 @@ var Rox;
             this.bags = this.game.add.group();
             this.bags.enableBody = true;
 
-            for (var i = 0; i < 8; i++) {
-                //  Create a bag inside of the 'bags' group
-                var onebag = this.bags.create(i * 100, 200, 'bag');
-                onebag.scale.x = 0.5;
-                onebag.scale.y = 0.5;
+            this.generateBags(15);
 
-                //  Let gravity do its thing
-                onebag.body.gravity.y = 400 + Math.random() * 700;
-
-                //  This just gives each bag a slightly random bounce value
-                onebag.body.bounce.y = 0.4 + Math.random() * 0.1;
-            }
             this.scoreText = this.game.add.text(16, 16, 'score: 0', { fontSize: '20px', fill: '#000' });
 
             this.back_emitter = this.game.add.emitter(this.game.world.centerX, -32, 600);
@@ -217,8 +207,15 @@ var Rox;
                 this.player.body.velocity.y = -540;
                 this.jumpCounter += 1;
             }
-            if (this.score == 100) {
-                this.scoreText = this.game.add.text(400, 300, 'You Win!!!\nYour Score: ' + String(this.score) + '\nYour Time: ' + String(this.timer.seconds) + '\nNumber of Jumps: ' + String(this.jumpCounter), { fontSize: '60px', fill: '#000' });
+            if (this.score == 50) {
+                this.bg = this.game.add.tileSprite(0, 0, 800, 600, 'bagworld-portal');
+                this.generateBags(50);
+            } else if (this.score == 200) {
+                this.bg = this.game.add.tileSprite(0, 0, 800, 600, 'bagworld');
+                this.generateBags(200);
+            } else if (this.score == 1000) {
+                this.scoreText.text = '';
+                this.scoreText = this.game.add.text(400, 300, 'You Win!!!\nYour Score: ' + '50' + '\nYour Time: ' + String(this.timer.seconds) + '\nNumber of Jumps: ' + String(this.jumpCounter), { fontSize: '60px', fill: '#000' });
                 this.game.state.game.paused = true;
             } else {
                 this.scoreText.text = 'Score: ' + this.score + '\tJumps: ' + this.jumpCounter + '\tTime: ' + String(this.timer.seconds);
@@ -251,6 +248,20 @@ var Rox;
         };
         Overworld.prototype.setParticleXSpeed = function (particle, max) {
             particle.body.velocity.x = max - Math.floor(Math.random() * 30);
+        };
+        Overworld.prototype.generateBags = function (num) {
+            for (var i = 0; i <= num; i++) {
+                //  Create a bag inside of the 'bags' group
+                var onebag = this.bags.create(this.game.world.randomX, 200, 'bag');
+                onebag.scale.x = 0.5;
+                onebag.scale.y = 0.5;
+
+                //  Let gravity do its thing
+                onebag.body.gravity.y = 400 + Math.random() * 700;
+
+                //  This just gives each bag a slightly random bounce value
+                onebag.body.bounce.y = 0.4 + Math.random() * 0.1;
+            }
         };
         return Overworld;
     })(Phaser.State);
