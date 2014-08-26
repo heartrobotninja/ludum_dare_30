@@ -6,9 +6,11 @@
         // Variables
         player: Phaser.Sprite;
         platforms: Phaser.Group;
-        bg: Phaser.TileSprite;
+        overworldBg: Phaser.TileSprite;
+        bagworldBg: Phaser.TileSprite;
         facing: String = 'left';
-        music: Phaser.Sound;
+        overworldMusic: Phaser.Sound;
+        bagworldMusic: Phaser.Sound;
         bags: Phaser.Group;
         scoreText: Phaser.Text;
         timeText: Phaser.Text;
@@ -32,11 +34,18 @@
         }
 
         create() {
-            this.bg = this.game.add.tileSprite(0, 0, 800, 600, 'sky');
-            this.bg.fixedToCamera = true;
+            this.overworldBg = this.game.add.tileSprite(0, 0, 800, 600, 'window-clear');
+            this.overworldBg.fixedToCamera = true;
+            this.overworldBg.exists = true;
 
-            this.music = this.game.add.audio('overworld', 1, true);
-            this.music.play('', 0, 1, true);
+            this.bagworldBg = this.game.add.tileSprite(0, 0, 800, 600, 'bagworld');
+            this.bagworldBg.fixedToCamera = true;
+            this.bagworldBg.exists = false;
+
+            this.overworldMusic = this.game.add.audio('overworld-music', 1, true);
+            this.overworldMusic.play('', 0, 1, true);
+
+            this.bagworldMusic = this.game.add.audio('bagworld-music', 1, true);
 
             this.platforms = this.game.add.group();
 
@@ -166,15 +175,18 @@
                 this.jumpCounter += 1;
             }
             if (this.score == 50) {
-                this.bg = this.game.add.tileSprite(0, 0, 800, 600, 'bagworld-portal');
                 this.generateBags(50);
             } else if (this.score == 200) {
-                this.bg = this.game.add.tileSprite(0, 0, 800, 600, 'bagworld');
+                this.overworldMusic.stop();
+                this.bagworldMusic.play('', 0, 1, true);
+
+                this.overworldBg.exists = false;
+                this.bagworldBg.exists = true;
                 this.generateBags(200);
-            } else if (this.score == 1000) {
+            } else if (this.score > 1000) {
                 this.scoreText.text = '';
                 this.scoreText = this.game.add.text(400, 300,
-                    'You Win!!!\nYour Score: ' + '50' +
+                    'You Win!!!\nYour Score: ' + String(this.score) +
                     '\nYour Time: ' + String(this.timer.seconds) +
                     '\nNumber of Jumps: ' + String(this.jumpCounter),
                     { fontSize: '60px', fill: '#000' });

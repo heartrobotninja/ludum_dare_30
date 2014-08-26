@@ -30,13 +30,14 @@
             this.load.image('window-glare', 'images/tiles/window-glare.png');
             this.load.image('window-left-corner', 'images/tiles/window-left-corner.png');
             this.load.image('window-left-side', 'images/tiles/window-left-side.png');
-            this.load.image('sky', 'images/tiles/bag-clear.png');
+            this.load.image('bagworld', 'images/tiles/bag-clear.png');
             this.load.image('bag-window-bottom', 'images/tiles/bag-window-bottom.png');
             this.load.image('bag-window-left-side', 'images/tiles/bag-window-left-side.png');
             this.load.image('bag-window-left-corner', 'images/tiles/bag-window-left-corner.png');
 
             // Loading audio sets
-            this.load.audio('overworld', 'music/rox-ow2.mp3', true);
+            this.load.audio('overworld-music', 'music/rox-ow2.mp3', true);
+            this.load.audio('bagworld-music', 'music/rox-bw2.mp3', true);
         }
 
         create() {
